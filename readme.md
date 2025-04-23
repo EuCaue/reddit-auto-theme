@@ -1,7 +1,6 @@
-# Reddit Auto Theme![License](https://img.shields.io/badge/license-GPL3-green)
+# Reddit Auto Theme
 
-[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-Install%20Now-brightgreen?logo=googlechrome)](https://chrome.google.com/webstore/detail/your-extension-id)
-[![Firefox Add-ons](https://img.shields.io/badge/Firefox%20Add--ons-Install%20Now-orange?logo=firefox)](https://addons.mozilla.org/en-US/firefox/addon/your-extension-id)
+[![Firefox Add-ons](https://img.shields.io/badge/Firefox%20Add--ons-Install%20Now-orange?logo=firefox)](https://addons.mozilla.org/en-US/firefox/addon/reddit-auto-theme)
 
 ![License](https://img.shields.io/badge/license-GPL3-green)
 ![Stars](https://img.shields.io/github/stars/eucaue/reddit-auto-theme?style=social)
@@ -13,16 +12,18 @@ theme.
 
 ## How to use
 
-1. Download and install the extension.
-2. Now just enter on the Reddit page and it will sync whenever your change your system theme.
-3. Enjoy it! :rocket:
+1. Install the extension.
+2. Open Reddit — the theme will automatically sync with your system theme whenever it changes.
+3. Enjoy! :rocket:
 
-## Installation
+## Features
 
-`todo!()`
+- Automatically syncs Reddit theme with your system (light/dark). 
+- Simple and lightweight.
+- No configuration needed.
 
 ## Contributing
 
-Any contributions are welcome or any ideas and suggestions! :smile:
+Contributions, ideas, and suggestions are always welcome! :smile:
 
 If you find this project helpful, consider giving it a :star:
