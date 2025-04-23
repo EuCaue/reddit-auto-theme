@@ -8,7 +8,7 @@
   "content_scripts": [
     {
       "matches": ["*://www.reddit.com/*"],
-      "js": ["src/content-script.js"],
+      "js": ["content-script.js"],
       "run_at": "document_idle"
     }
   ],
@@ -24,5 +24,10 @@
     "32": "icons/icon-32.png",
     "48": "icons/icon-48.png",
     "128": "icons/icon-128.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "reddit-auto-theme@eucaue"
+    }
   }
 }
