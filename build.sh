@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -10,4 +10,4 @@ echo -e "${BLUE}Building...${RESET}"
 
 web-ext build -s "./src" -a "dist" --overwrite-dest -n "reddit-auto-theme.zip"
 
-echo -e "${GREEN}All done.${RESET}" 
+echo -e "${GREEN}All done.${RESET}"

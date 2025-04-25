@@ -1,27 +1,36 @@
 const PROD = false;
 
 /**
- * @param { "log" | "warn" | "error" | "log"} level - log level
  * @param {string} message - The message to be logged.
  * @returns void
  */
-function customLogger(level, ...message) {
-  if (PROD) return;
+function log(...message) {
+  if (!PROD) console.log("[REDDIT-AUTO-THEME]: ", ...message);
+}
 
-  const levels = {
-    info: "log",
-    info: "info",
-    warn: "warn",
-    error: "error",
-    debug: "debug",
-  };
-
-  const EXT_NAME = "REDDIT-AUTO-THEME";
-
-  if (levels[level]) {
-    console[level](EXT_NAME, level, ...message);
-  } else {
-    console.log(EXT_NAME, "default level", level, ...message);
+/**
+ *
+ * Make the button for toggle theme visibile in the DOM.
+ * @returns {HTMLElement?}
+ */
+function makeThemeToggleVisible() {
+  const drawerBtn = document.querySelector("#expand-user-drawer-button");
+  const themeToggleBtn = document.querySelector("faceplate-switch-input");
+  if (themeToggleBtn) {
+    log("Theme toggle button found.", themeToggleBtn);
+    return null;
+  }
+  if (!drawerBtn) {
+    log("Drawer button not found.");
+    return null;
+  }
+  log("Theme toggle button not found.");
+  if (!themeToggleBtn) {
+    drawerBtn.click();
+    setTimeout(() => {
+      drawerBtn.click();
+    }, 1000);
+    return drawerBtn;
   }
 }
 
@@ -30,42 +39,55 @@ function customLogger(level, ...message) {
  * @returns void
  */
 function toggleTheme() {
-  document.documentElement.style.pointerEvents = "none";
-  const drawerBtn = document.querySelector("#expand-user-drawer-button");
-  if (!drawerBtn) return customLogger("warn", "Drawer button not found.");
-  drawerBtn.click();
-  drawerBtn.click();
-  const observer = new MutationObserver(() => {
-    const themeToggleBtn = document.querySelector("faceplate-switch-input");
-    if (themeToggleBtn) {
-      observer.disconnect();
-      setTimeout(() => {
-        themeToggleBtn.click();
-        customLogger("info", "Toggling theme");
-        document.documentElement.style.pointerEvents = "";
-        document.documentElement.focus();
-      }, 800);
-    }
-  });
-
-  observer.observe(document.body, { childList: true, subtree: true });
+  const themeToggleBtn = document.querySelector("faceplate-switch-input");
+  if (themeToggleBtn) {
+    document.documentElement.style.pointerEvents = "none";
+    themeToggleBtn.click();
+    document.documentElement.style.pointerEvents = "";
+    document.activeElement.blur();
+  }
 }
 
-window.addEventListener("DOMContentLoaded", () => {
+/**
+ * @returns {Promise<HTMLElement>} -
+ */
+function waitForHeader() {
+  return new Promise((resolve) => {
+    const header = document.querySelector("header");
+    if (header) return resolve(header);
+
+    const observer = new MutationObserver(() => {
+      const header = document.querySelector("header");
+      if (header) {
+        observer.disconnect();
+        resolve(header);
+      }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+  });
+}
+
+waitForHeader().then(() => {
+  console.info("Header element loaded.");
   const isDarkTheme = document.documentElement.classList.contains("theme-dark");
   const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
 
   if (darkThemeMq.matches !== isDarkTheme) {
+    makeThemeToggleVisible();
     toggleTheme();
   }
 
   darkThemeMq.addEventListener("change", (e) => {
-    customLogger("info", "System theme changed.");
+    log("System theme has changed.");
     const isDarkTheme =
       document.documentElement.classList.contains("theme-dark");
     if (e.matches !== isDarkTheme) {
+      log("Changing theme.");
+      makeThemeToggleVisible();
       toggleTheme();
     }
   });
 });
-customLogger("info", "EXTENSION LOADED.");
+
+console.info("[REDDIT-AUTO-THEME]: EXTENSION LOADED.");
