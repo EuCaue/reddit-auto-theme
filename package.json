@@ -1,0 +1,16 @@
+{
+  "name": "reddit-auto-theme",
+  "version": "1.3.0",
+  "description": "[![Firefox Add-ons](https://img.shields.io/badge/Firefox%20Add--ons-Install%20Now-orange?logo=firefox)](https://addons.mozilla.org/en-US/firefox/addon/reddit-auto-theme)",
+  "main": "index.js",
+  "scripts": {
+    "build": "bash build.sh",
+    "dev": "npx web-ext run --reload -s src "
+  },
+  "keywords": [],
+  "author": "Cauê Souza",
+  "license": "ISC",
+  "dependencies": {
+    "web-ext": "^8.10.0"
+  }
+}
