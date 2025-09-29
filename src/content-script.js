@@ -10,39 +10,35 @@ function log(...message) {
 
 /**
  *
- * Make the button for toggle theme visibile in the DOM.
+ * Toggle the current theme.
  * @returns {HTMLElement?}
  */
-function makeThemeToggleVisible() {
+function toggleTheme() {
   const drawerBtn = document.querySelector("#expand-user-drawer-button");
   const themeToggleBtn = document.querySelector("faceplate-switch-input");
-  if (themeToggleBtn) {
-    log("Theme toggle button found.", themeToggleBtn);
-    return null;
-  }
   if (!drawerBtn) {
     log("Drawer button not found.");
     return null;
   }
   log("Theme toggle button not found.");
-  if (!themeToggleBtn) {
+  drawerBtn.click();
+  setTimeout(() => {
     drawerBtn.click();
-    setTimeout(() => {
-      drawerBtn.click();
-    }, 1000);
-    return drawerBtn;
-  }
+    clickToggleThemeBtn(themeToggleBtn);
+  }, 1000);
+  return drawerBtn;
 }
 
 /**
- * Toggle the current theme.
+ * Click on the toggle theme button
+ * @param {HTMLButtonElement} btn
  * @returns void
  */
-function toggleTheme() {
-  const themeToggleBtn = document.querySelector("faceplate-switch-input");
-  if (themeToggleBtn) {
+function clickToggleThemeBtn(btn) {
+  if (btn) {
+    console.log("TOGGLING");
     document.documentElement.style.pointerEvents = "none";
-    themeToggleBtn.click();
+    btn.click();
     document.documentElement.style.pointerEvents = "";
     document.activeElement.blur();
   }
@@ -74,7 +70,6 @@ waitForHeader().then(() => {
   const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
 
   if (darkThemeMq.matches !== isDarkTheme) {
-    makeThemeToggleVisible();
     toggleTheme();
   }
 
@@ -84,7 +79,6 @@ waitForHeader().then(() => {
       document.documentElement.classList.contains("theme-dark");
     if (e.matches !== isDarkTheme) {
       log("Changing theme.");
-      makeThemeToggleVisible();
       toggleTheme();
     }
   });
