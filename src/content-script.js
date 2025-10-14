@@ -1,4 +1,6 @@
 const PROD = false;
+let isToggling = false;
+let initialized = false;
 
 /**
  * @param {string} message - The message to be logged.
@@ -14,33 +16,34 @@ function log(...message) {
  * @returns {HTMLElement?}
  */
 function toggleTheme() {
+  if (isToggling) return;
   const drawerBtn = document.querySelector("#expand-user-drawer-button");
-  const themeToggleBtn = document.querySelector("faceplate-switch-input");
   if (!drawerBtn) {
-    log("Drawer button not found.");
     return null;
   }
-  log("Theme toggle button not found.");
   drawerBtn.click();
+  isToggling = true;
+  setTimeout(() => {
+    clickToggleThemeBtn();
+  }, 1500);
   setTimeout(() => {
     drawerBtn.click();
-    clickToggleThemeBtn(themeToggleBtn);
-  }, 1000);
+  }, 375);
   return drawerBtn;
 }
 
 /**
  * Click on the toggle theme button
- * @param {HTMLButtonElement} btn
  * @returns void
  */
-function clickToggleThemeBtn(btn) {
-  if (btn) {
-    console.log("TOGGLING");
+function clickToggleThemeBtn() {
+  const themeToggleBtn = document.querySelector("faceplate-switch-input");
+  if (themeToggleBtn) {
     document.documentElement.style.pointerEvents = "none";
-    btn.click();
-    document.documentElement.style.pointerEvents = "";
+    themeToggleBtn.click();
+    document.documentElement.style.pointerEvents = "auto";
     document.activeElement.blur();
+    isToggling = false;
   }
 }
 
@@ -64,24 +67,46 @@ function waitForHeader() {
   });
 }
 
-waitForHeader().then(() => {
-  console.info("Header element loaded.");
-  const isDarkTheme = document.documentElement.classList.contains("theme-dark");
-  const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
+const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
 
-  if (darkThemeMq.matches !== isDarkTheme) {
+prefersDark.addEventListener("change", (e) => {
+  log("System theme has changed.");
+  const html = document.documentElement;
+  const isDarkNow = html.classList.contains("theme-dark");
+  if (e.matches !== isDarkNow) {
+    log("Changing theme.");
+    toggleTheme();
+  }
+});
+
+async function main() {
+  await waitForHeader();
+
+  log("Header element loaded.");
+  const html = document.documentElement;
+  const isDark = html.classList.contains("theme-dark");
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+  if (prefersDark.matches !== isDark) {
+    log("Syncing theme with system.");
     toggleTheme();
   }
 
-  darkThemeMq.addEventListener("change", (e) => {
-    log("System theme has changed.");
-    const isDarkTheme =
-      document.documentElement.classList.contains("theme-dark");
-    if (e.matches !== isDarkTheme) {
-      log("Changing theme.");
-      toggleTheme();
-    }
-  });
-});
+  console.info("[REDDIT-AUTO-THEME]: EXTENSION LOADED.");
+}
 
-console.info("[REDDIT-AUTO-THEME]: EXTENSION LOADED.");
+async function mainOnce() {
+  if (initialized) return;
+  initialized = true;
+  await main();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", mainOnce, { once: true });
+} else {
+  mainOnce();
+}
+
+window.addEventListener("focus", async () => {
+  await main();
+});
