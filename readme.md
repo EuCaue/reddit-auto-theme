@@ -1,9 +1,13 @@
 # Reddit Auto Theme
 
-[![Firefox Add-ons](https://img.shields.io/badge/Firefox%20Add--ons-Install%20Now-orange?logo=firefox)](https://addons.mozilla.org/en-US/firefox/addon/reddit-auto-theme)
+<div align="center">
 
-![License](https://img.shields.io/badge/license-GPL3-green)
-![Stars](https://img.shields.io/github/stars/eucaue/reddit-auto-theme?style=social)
+[![Firefox Add-ons](https://img.shields.io/badge/Firefox%20Add--ons-Install%20Now-orange?logo=firefox&logoColor=white&style=for-the-badge)](https://addons.mozilla.org/en-US/firefox/addon/reddit-auto-theme)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Buy%20Me%20a%20Coffee-ff5f5f?logo=kofi&logoColor=white&style=for-the-badge)](https://ko-fi.com/eucaue)
+
+![License](https://img.shields.io/badge/License-GPL3-green?style=for-the-badge&logo=gnu&logoColor=white)
+![Stars](https://img.shields.io/github/stars/eucaue/reddit-auto-theme?style=for-the-badge&logo=github&logoColor=white)
+</div>
 
 > Solving a problem that shouldn't exist in the first place.
 
